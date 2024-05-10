@@ -4,8 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -36,7 +38,7 @@ fun MyApp(
         modifier = modifier,
         color = MaterialTheme.colorScheme.background,
     ) {
-        Column {
+        Column(modifier = modifier.padding(4.dp)) {
             for (name in names) {
                 Greeting(name = name)
             }
@@ -49,15 +51,25 @@ fun Greeting(
     name: String,
     modifier: Modifier = Modifier,
 ) {
-    Surface(color = MaterialTheme.colorScheme.primary) {
-        Column(modifier = modifier.padding(24.dp)) {
-            Text(text = "Hello ")
-            Text(text = name)
+    Surface(
+        color = MaterialTheme.colorScheme.primary,
+        modifier = modifier.padding(8.dp, 4.dp),
+    ) {
+        Row(modifier = Modifier.padding(24.dp)) {
+            Column(
+                modifier = Modifier.weight(1f),
+            ) {
+                Text(text = "Hello ")
+                Text(text = name)
+            }
+            ElevatedButton(onClick = { /*TODO*/ }) {
+                Text("Show more")
+            }
         }
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, widthDp = 320)
 @Composable
 fun GreetingPreview() {
     FirstKotlinTheme {
