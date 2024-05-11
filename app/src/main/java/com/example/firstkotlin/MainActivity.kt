@@ -30,26 +30,47 @@ class MainActivity : ComponentActivity() {
         setContent {
             FirstKotlinTheme {
                 // A surface container using the 'background' color from the theme
-                MyApp(modifier = Modifier.fillMaxSize())
+                MyApp()
             }
         }
     }
 }
 
+@Preview
 @Composable
-fun MyApp(
+fun MyAppPreview() {
+    FirstKotlinTheme {
+        MyApp()
+    }
+}
+
+@Composable
+fun MyApp() {
+    var shouldShowOnBoarding by remember { mutableStateOf(true) }
+    if (shouldShowOnBoarding) {
+        OnBoardingScreen(onContinueClicked = { shouldShowOnBoarding = false })
+    } else {
+        Greetings()
+    }
+}
+
+@Composable
+private fun Greetings(
     modifier: Modifier = Modifier,
     names: List<String> = listOf("World", "Compose"),
 ) {
-    Surface(
-        modifier = modifier,
-        color = MaterialTheme.colorScheme.background,
-    ) {
-        Column(modifier = modifier.padding(4.dp)) {
-            for (name in names) {
-                Greeting(name = name)
-            }
+    Column(modifier = modifier.padding(vertical = 4.dp)) {
+        for (name in names) {
+            Greeting(name = name)
         }
+    }
+}
+
+@Preview(showBackground = true, widthDp = 320)
+@Composable
+fun GreetingsPreview() {
+    FirstKotlinTheme {
+        Greetings()
     }
 }
 
@@ -58,9 +79,8 @@ fun Greeting(
     name: String,
     modifier: Modifier = Modifier,
 ) {
-    val expanded =
-        remember { mutableStateOf(false) }
-    val extraPadding = if (expanded.value) 48.dp else 0.dp
+    var expanded by remember { mutableStateOf(false) }
+    val extraPadding = if (expanded) 48.dp else 0.dp
     Surface(
         color = MaterialTheme.colorScheme.primary,
         modifier = modifier.padding(8.dp, 4.dp),
@@ -72,32 +92,33 @@ fun Greeting(
                 Text(text = "Hello, ")
                 Text(text = name)
             }
-            ElevatedButton(onClick = { expanded.value = !expanded.value }) {
-                Text(if (expanded.value) "Show less" else "Show more")
+            ElevatedButton(onClick = { expanded = !expanded }) {
+                Text(if (expanded) "Show less" else "Show more")
             }
         }
     }
 }
 
-@Preview(showBackground = true, widthDp = 320)
-@Composable
-fun GreetingPreview() {
-    FirstKotlinTheme {
-        MyApp()
-    }
-}
+// @Preview(showBackground = true, widthDp = 320)
+// @Composable
+// fun GreetingPreview() {
+//    FirstKotlinTheme {
+//        MyApp()
+//    }
+// }
 
 @Composable
-fun OnBoardingScreen(modifier: Modifier = Modifier) {
-    //
-    var shouldShowOnBoarding by remember { mutableStateOf(true) }
+fun OnBoardingScreen(
+    onContinueClicked: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text("Welcome to the Basics Codelab!")
-        Button(modifier = Modifier.padding(vertical = 24.dp), onClick = { shouldShowOnBoarding = false }) {
+        Button(modifier = Modifier.padding(vertical = 24.dp), onClick = onContinueClicked) {
             Text("Continue")
         }
     }
@@ -107,6 +128,6 @@ fun OnBoardingScreen(modifier: Modifier = Modifier) {
 @Composable
 fun OnboardingPreview() {
     FirstKotlinTheme {
-        OnBoardingScreen()
+        OnBoardingScreen(onContinueClicked = {})
     }
 }
