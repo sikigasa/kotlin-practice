@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             FirstKotlinTheme {
                 // A surface container using the 'background' color from the theme
-                MyApp()
+                MyApp(modifier = Modifier.fillMaxSize())
             }
         }
     }
@@ -51,12 +51,14 @@ fun MyAppPreview() {
 }
 
 @Composable
-fun MyApp() {
+fun MyApp(modifier: Modifier = Modifier) {
     var shouldShowOnBoarding by rememberSaveable { mutableStateOf(true) }
-    if (shouldShowOnBoarding) {
-        OnBoardingScreen(onContinueClicked = { shouldShowOnBoarding = false })
-    } else {
-        Greetings()
+    Surface(modifier = modifier) {
+        if (shouldShowOnBoarding) {
+            OnBoardingScreen(onContinueClicked = { shouldShowOnBoarding = false })
+        } else {
+            Greetings()
+        }
     }
 }
 
