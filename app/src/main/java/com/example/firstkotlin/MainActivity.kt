@@ -159,6 +159,7 @@ private fun CardContent(name: String) {
     }
 }
 
+@Suppress("ktlint:standard:function-naming")
 @Composable
 fun OnBoardingScreen(
     onContinueClicked: () -> Unit,
