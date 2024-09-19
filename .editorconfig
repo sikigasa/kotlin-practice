@@ -1,0 +1,7 @@
+root = true
+
+# 拡張子が kt または kts のファイルで
+[*.{kt,kts}]
+# 最終行に空行を入れない
+# insert_final_newline = false
+ktlint_function_naming_ignore_when_annotated_with = Composable
